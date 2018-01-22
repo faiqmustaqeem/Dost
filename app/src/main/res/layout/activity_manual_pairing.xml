@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context="com.example.faiq.dost.Activities.ManualPairingActivity">
+
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="10dp"
+        android:weightSum="6"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:src="@drawable/wallet"/>
+        <android.support.v7.widget.AppCompatEditText
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:hint="Wallet ID"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout1"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:weightSum="6"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/key"/>
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content">
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+               <android.support.v7.widget.AppCompatEditText
+                   android:id="@+id/password"
+                   android:layout_width="match_parent"
+                   android:hint="Passowrd"
+                   android:inputType="textPassword"
+                   android:layout_height="wrap_content"
+                   android:backgroundTint="@color/colorPrimary"
+                   />
+               <ImageView
+                   android:id="@+id/show_hide_password"
+                   android:layout_width="30dp"
+                   android:layout_height="30dp"
+                   android:src="@mipmap/show_password"
+                   android:layout_alignParentRight="true"/>
+           </RelativeLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:layout_below="@id/layout2"
+        android:layout_marginTop="20dp"
+        android:text="Continue"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"/>
+
+</RelativeLayout>

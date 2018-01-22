@@ -4,37 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context="com.example.faiq.dost.Activities.LogoActivity">
 
 <RelativeLayout
     android:id="@+id/layout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerVertical="true">
+    android:layout_marginTop="60dp"
+    >
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:src="@drawable/logo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
     
-    <ImageView
+    <Button
         android:id="@+id/create_wallet"
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_marginTop="50dp"
-        android:src="@drawable/create_wallet"
+        android:text="Create Wallet"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:background="@drawable/rounded_corner"
         android:layout_below="@+id/logo"
         android:layout_alignStart="@+id/login" />
 
-    <ImageView
+    <Button
         android:id="@+id/login"
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:layout_below="@id/create_wallet"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_corner"
+        android:text="Log in"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
         android:layout_centerHorizontal="true"
         android:src="@drawable/login"/>
 
