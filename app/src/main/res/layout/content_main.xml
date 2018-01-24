@@ -8,36 +8,291 @@
     tools:context="com.example.faiq.dost.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <com.daimajia.slider.library.SliderLayout
-        android:id="@+id/slider"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
 
-    <com.daimajia.slider.library.Indicators.PagerIndicator
-        android:id="@+id/custom_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_below="@id/slider"
-        android:layout_centerHorizontal="true"
-        />
-    <TextView
-        android:id="@+id/tv1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="services in your locality"
-        android:layout_below="@id/custom_indicator"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="20dp"
-        />
+            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/custom_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_below="@id/slider"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="services in your locality"
+                android:layout_below="@id/custom_indicator"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"
+                />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/gray"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/tv1"></View>
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/gray"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/tv1"></View>
+
+            <LinearLayout
+                android:id="@+id/layout1"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@id/view1"
+                android:padding="10dp"
+                android:weightSum="3.04"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/option_width"
+                            android:layout_height="@dimen/option_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/option_1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="15sp"
+                            android:layout_marginTop="10dp"
+                            android:text="Marketing Solutions"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="0.02"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray"
+                    ></View>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/option_width"
+                            android:layout_height="@dimen/option_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/option_2"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="15sp"
+                            android:layout_marginTop="10dp"
+                            android:text="Religious Tourism"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="0.02"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray"
+                    ></View>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/option_width"
+                            android:layout_height="@dimen/option_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/option_3"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="15sp"
+                            android:layout_marginTop="10dp"
+                            android:text="Event Management"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/gray"
+                android:layout_marginTop="0dp"
+                android:layout_below="@id/layout1"></View>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/gray"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/view2"></View>
+            <LinearLayout
+                android:id="@+id/layout2"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@id/view3"
+                android:padding="10dp"
+                android:weightSum="3.04"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/option_width"
+                            android:layout_height="@dimen/option_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/option_4"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="15sp"
+                            android:layout_marginTop="10dp"
+                            android:text="Real Estate"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="0.02"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray"
+                    ></View>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/option_width"
+                            android:layout_height="@dimen/option_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/option_5"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textSize="15sp"
+                            android:layout_marginTop="10dp"
+                            android:text="Car"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="0.02"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray"
+                    ></View>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/option_width"
+                            android:layout_height="@dimen/option_height"
+                            android:layout_gravity="center"
+                            android:src="@drawable/option_6"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:textSize="15sp"
+                            android:text="Pleasure Tourism"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/gray"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@id/layout2"></View>
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+
 
 
 </RelativeLayout>
