@@ -1,5 +1,6 @@
 package com.example.faiq.dost.Activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,25 +13,38 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.faiq.dost.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SliderLayout mDemoSlider;
-
+    TextView location;
+    Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // Remove default title text
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        activity=this;
+       // getSupportActionBar().setTitle("");
+            mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
 
         HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
@@ -54,8 +68,9 @@ public class MainActivity extends AppCompatActivity
             mDemoSlider.addSlider(textSliderView);
 
         }
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+//            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//            setSupportActionBar(toolbar);
+
 
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +89,39 @@ public class MainActivity extends AppCompatActivity
 
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
+
+        location=(TextView)findViewById(R.id.location);
+        final List<String> list=new ArrayList<String>();
+        list.add("Defence");
+        list.add("University Road");
+        list.add("NIPA");
+        list.add("Gulshan");
+        list.add("Maymar");
+        list.add("PECHS");
+        list.add("Bahadurabad");
+        list.add("Azizabad");
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MaterialDialog.Builder(activity)
+                        .title("Select Location")
+                        .items(list)
+                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                                /**
+                                 * If you use alwaysCallSingleChoiceCallback(), which is discussed below,
+                                 * returning false here won't allow the newly selected radio button to actually be selected.
+                                 **/
+                                location.setText(text.toString());
+                                return true;
+                            }
+                        })
+                        .positiveText("OK")
+                        .show();
+            }
+        });
 
     }
 

@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".Activities.LogoActivity"
-            android:theme="@style/AppThemeNoActionBar">
+            android:name=".Activities.LogoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,12 +20,11 @@
         </activity>
         <activity
             android:name=".Activities.LoginActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+            />
         <activity android:name=".Activities.SignInActivity" />
         <activity android:name=".Activities.ManualPairingActivity" />
         <activity
             android:name=".Activities.MainActivity"
-            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme"></activity>
     </application>
 

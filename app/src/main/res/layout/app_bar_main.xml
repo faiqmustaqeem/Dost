@@ -16,7 +16,36 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+          <RelativeLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+              <TextView
+                  android:id="@+id/tv_location_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Your Location"
+                  android:gravity="top"
+                  android:textSize="13sp"
+                  android:textColor="@android:color/white"/>
+
+              <TextView
+                  android:id="@+id/location"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Dolmur 2nd stage"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                 android:layout_below="@id/tv_location_text"
+                  android:drawableRight="@drawable/lower_arrow"
+                  />
+          </RelativeLayout>
+
+
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
