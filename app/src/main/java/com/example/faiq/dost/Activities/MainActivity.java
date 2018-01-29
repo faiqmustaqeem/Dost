@@ -1,6 +1,7 @@
 package com.example.faiq.dost.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -27,16 +29,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SliderLayout mDemoSlider;
     TextView location;
     Activity activity;
+    @BindView(R.id.real_estate)
+    RelativeLayout real_estate;
+
+    @BindView(R.id.religious_tourism)
+    RelativeLayout religious_tourism;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -180,5 +194,21 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @OnClick({R.id.real_estate , R.id.religious_tourism})
+    void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.real_estate:
+                Intent i=new Intent(activity , SelectCategory.class);
+                startActivity(i);
+                break;
+            case R.id.religious_tourism:
+                Intent i1=new Intent(activity , ReligiousTourismActivity.class);
+                startActivity(i1);
+                break;
+        }
     }
 }

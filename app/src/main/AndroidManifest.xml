@@ -9,23 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity
-            android:name=".Activities.LogoActivity">
+        <activity android:name=".Activities.LogoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.LoginActivity"
-            />
+        <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.SignInActivity" />
         <activity android:name=".Activities.ManualPairingActivity" />
-        <activity
-            android:name=".Activities.MainActivity"
-            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.SelectCategory" />
+        <activity android:name=".Activities.PropertyDetailsActivity" />
+        <activity android:name=".Activities.ReligiousTourismActivity" />
+        <activity android:name=".Activities.HouseActivity"></activity>
     </application>
 
 </manifest>
