@@ -115,6 +115,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/layout_email"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -136,6 +137,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/layout_sms"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -158,6 +160,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_call"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

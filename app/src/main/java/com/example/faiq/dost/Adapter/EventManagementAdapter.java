@@ -1,7 +1,8 @@
-package com.example.faiq.dost.Activities;
+package com.example.faiq.dost.Adapter;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,67 +12,69 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.faiq.dost.Activities.EventManagement;
+import com.example.faiq.dost.Models.EventManagementModel;
 import com.example.faiq.dost.R;
 
-import java.security.Permission;
+import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import static android.content.Context.MODE_PRIVATE;
 
-public class PropertyDetailsActivity extends AppCompatActivity {
+/**
+ * Created by CodianSoft on 06/02/2018.
+ */
 
+public class EventManagementAdapter extends RecyclerView.Adapter<EventManagementAdapter.MyViewHolder> {
+
+    List<EventManagementModel> list;
+    Context context;
     Activity activity;
 
-    @BindView(R.id.back)
-    ImageView back;
-    @BindView(R.id.layout_call)
-    LinearLayout layout_call;
-    @BindView(R.id.layout_email)
-    LinearLayout layout_email;
-    @BindView(R.id.layout_sms)
-    LinearLayout layout_sms;
 
-    private static final int CALL_PERMISSION_CONSTANT = 100;
-    private static final int REQUEST_PERMISSION_SETTING = 101;
-    private boolean sentToSettings = false;
-    private SharedPreferences permissionStatus;
+    public EventManagementAdapter(List<EventManagementModel> list, Context context , Activity activity) {
+        this.list = list;
+        this.context = context;
+        this.activity=activity;
+    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_property_details);
-        activity=this;
-        ButterKnife.bind(this);
-    }
-    @OnClick({R.id.back , R.id.layout_call})
-    void OnClick(View view)
-    {
-        switch (view.getId())
-        {
-            case R.id.back:
-                finish();
-                break;
-            case R.id.layout_call:
-                getCallPermissions("03128676054");
-                break;
-        }
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.event_management_item, parent, false);
+
+        return new MyViewHolder(itemView);
     }
 
-    void getCallPermissions(String contact_number )
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        final EventManagementModel model = list.get(position);
+
+        holder.event_name.setText(model.getEvent_name());
+
+        holder.layout_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCallPermissions(model.getEvent_contact_number());
+            }
+        });
+    }
+
+
+    void getCallPermissions(String contact_number)
     {
-        permissionStatus = activity.getSharedPreferences("call_permission",MODE_PRIVATE);
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        EventManagement.permissionStatus = activity.getSharedPreferences("call_permission",MODE_PRIVATE);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CALL_PHONE)) {
                 //Show Information about why you need the permission
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -81,7 +84,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_CONSTANT);
+                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, EventManagement.CALL_PERMISSION_CONSTANT);
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -91,7 +94,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                     }
                 });
                 builder.show();
-            } else if (permissionStatus.getBoolean(Manifest.permission.CALL_PHONE,false)) {
+            } else if (EventManagement.permissionStatus.getBoolean(Manifest.permission.CALL_PHONE,false)) {
                 //Previously Permission Request was cancelled with 'Dont Ask Again',
                 // Redirect to Settings after showing Information about why you need the permission
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -101,12 +104,12 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        sentToSettings = true;
+                        EventManagement.sentToSettings = true;
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
                         intent.setData(uri);
-                        activity.startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
-                        Toast.makeText(getApplicationContext(), "Go to Permissions to Grant Call Permission", Toast.LENGTH_LONG).show();
+                        activity.startActivityForResult(intent, EventManagement.REQUEST_PERMISSION_SETTING);
+                        Toast.makeText(context, "Go to Permissions to Grant Call Permission", Toast.LENGTH_LONG).show();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -118,10 +121,10 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                 builder.show();
             } else {
                 //just request the permission
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_CONSTANT);
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, EventManagement.CALL_PERMISSION_CONSTANT);
             }
 
-            SharedPreferences.Editor editor = permissionStatus.edit();
+            SharedPreferences.Editor editor = EventManagement.permissionStatus.edit();
             editor.putBoolean(Manifest.permission.CALL_PHONE,true);
             editor.commit();
 
@@ -142,7 +145,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact_number));
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                             // TODO: Consider calling
                             //    ActivityCompat#requestPermissions
                             // here to request the missing permissions, and then overriding
@@ -153,7 +156,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                             return;
                         }
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+                        context.startActivity(intent);
                     }
                 })
                 .negativeText("Cancel")
@@ -161,31 +164,17 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                 .show();
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PERMISSION_SETTING) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                //Got Permission
-                // proceedAfterPermission();
-                Toast.makeText(activity, "Permission Granted ! You can call now ", Toast.LENGTH_SHORT).show();
-            }
-        }
+    public int getItemCount() {
+        return list.size();
     }
 
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if (sentToSettings) {
-            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                //Got Permission
-                //proceedAfterPermission();
-                Toast.makeText(activity, "Permission Granted ! you can call now ", Toast.LENGTH_SHORT).show();
-            }
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView event_name;
+        LinearLayout layout_call;
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            event_name=itemView.findViewById(R.id.event_name);
+            layout_call=itemView.findViewById(R.id.layout_call);
         }
     }
-
-
-
-
 }

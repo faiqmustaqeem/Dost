@@ -10,7 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -25,14 +28,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static java.security.AccessController.getContext;
 
-public class SelectCategory extends AppCompatActivity {
+public class SelectCategoryRealEstate extends AppCompatActivity {
 
 
     @BindView(R.id.recycleview1)
-    RecyclerView recyclerView1;
+    ListView listview;
     @BindView(R.id.recycleview2)
     RecyclerView recyclerView2;
     @BindView(R.id.toolbar)
@@ -57,30 +61,25 @@ public class SelectCategory extends AppCompatActivity {
         // Remove default title text
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                R.layout.listeview_item, getSelection());
 
-        adapter1 = new SelectCategoryAdapter(getSelection() , getApplicationContext());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView1.setLayoutManager(mLayoutManager);
-        recyclerView1.setItemAnimator(new DefaultItemAnimator());
-        recyclerView1.setAdapter(adapter1);
+       // ListView listView = (ListView) findViewById(R.id.recycleview1);
+        listview.setAdapter(adapter);
 
-        recyclerView1.addOnItemTouchListener(new RecycleTouchListener(
-                        activity, new RecycleTouchListener.OnItemClickListener(){
-                    @Override public void onItemClick(View view, int position) {
-                        // TODO Handle item click
-                        //Toast.makeText(getActivity() , "item "+position , Toast.LENGTH_LONG).show();
-                        switch (position)
-                        {
-                            case 2:
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i)
+                {
+                    case 2:
+                        Intent i1=new Intent(activity , HouseActivity.class);
+                         startActivity(i1);
+                    break;
 
-                                Intent i1=new Intent(activity , HouseActivity.class);
-                                startActivity(i1);
-                                break;
-
-                        }
-                    }
-                })
-        );
+                }
+            }
+        });
 
         adapter2 = new FeatureAddAdapter(getFeatureAdds() , getApplicationContext());
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
@@ -106,13 +105,20 @@ public class SelectCategory extends AppCompatActivity {
         List<FeatureAddModel> list=new ArrayList<>();
         list.add(new FeatureAddModel("demo" , "120" , ""));
         list.add(new FeatureAddModel("demo" , "120" , ""));
-
+        list.add(new FeatureAddModel("demo" , "120" , ""));
         list.add(new FeatureAddModel("demo" , "120" , ""));
 
-        list.add(new FeatureAddModel("demo" , "120" , ""));
-
-        list.add(new FeatureAddModel("demo" , "120" , ""));
     return list;
+    }
+    @OnClick({R.id.back})
+    void OnClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.back:
+                finish();
+                break;
+        }
     }
 
 }

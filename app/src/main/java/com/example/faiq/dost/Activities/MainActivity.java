@@ -14,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,6 +42,9 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.religious_tourism)
     RelativeLayout religious_tourism;
+
+    @BindView(R.id.event_management)
+    RelativeLayout event_management;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,18 +197,22 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @OnClick({R.id.real_estate , R.id.religious_tourism})
+    @OnClick({R.id.real_estate , R.id.religious_tourism,R.id.event_management})
     void onClick(View v)
     {
         switch (v.getId())
         {
             case R.id.real_estate:
-                Intent i=new Intent(activity , SelectCategory.class);
+                Intent i=new Intent(activity , SelectCategoryRealEstate.class);
                 startActivity(i);
                 break;
             case R.id.religious_tourism:
                 Intent i1=new Intent(activity , ReligiousTourismActivity.class);
                 startActivity(i1);
+                break;
+            case R.id.event_management:
+                Intent i2=new Intent(activity , SelectCategoryEventManagement.class);
+                startActivity(i2);
                 break;
         }
     }
