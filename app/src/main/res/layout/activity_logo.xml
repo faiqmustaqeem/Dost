@@ -103,6 +103,7 @@
 
 
         <ImageView
+            android:id="@+id/facebook_logo"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/facebook"/>
@@ -115,6 +116,7 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/google_logo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/google"/>

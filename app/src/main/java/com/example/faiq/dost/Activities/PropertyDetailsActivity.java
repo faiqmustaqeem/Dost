@@ -22,8 +22,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.faiq.dost.R;
 
-import java.security.Permission;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,8 +40,10 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     LinearLayout layout_sms;
 
     private static final int CALL_PERMISSION_CONSTANT = 100;
-    private static final int REQUEST_PERMISSION_SETTING = 101;
-    private boolean sentToSettings = false;
+    private static final int SMS_PERMISSION_CONSTANT = 101;
+    private static final int REQUEST_PERMISSION_SETTING = 110;
+    private boolean sentToSettingsForCall = false;
+    private boolean sentToSettingsForSMS = false;
     private SharedPreferences permissionStatus;
 
 
@@ -54,7 +54,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         activity=this;
         ButterKnife.bind(this);
     }
-    @OnClick({R.id.back , R.id.layout_call})
+    @OnClick({R.id.back , R.id.layout_call , R.id.layout_sms,R.id.layout_email})
     void OnClick(View view)
     {
         switch (view.getId())
@@ -65,9 +65,96 @@ public class PropertyDetailsActivity extends AppCompatActivity {
             case R.id.layout_call:
                 getCallPermissions("03128676054");
                 break;
+            case R.id.layout_sms:
+            checkSmsPermission();
+             break;
+            case R.id.layout_email:
+             sendEmail();
+             break;
+
+
+
         }
     }
 
+    void sendEmail()
+    {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","faiq.mustaqeem54@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Dost");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+    void checkSmsPermission()
+    {
+
+
+        permissionStatus = activity.getSharedPreferences("sms_permission",MODE_PRIVATE);
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CALL_PHONE)) {
+                //Show Information about why you need the permission
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle("Need SMS Permission");
+                builder.setMessage("This app needs SMS permission.");
+                builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SEND_SMS}, SMS_PERMISSION_CONSTANT);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            } else if (permissionStatus.getBoolean(Manifest.permission.SEND_SMS,false)) {
+                //Previously Permission Request was cancelled with 'Dont Ask Again',
+                // Redirect to Settings after showing Information about why you need the permission
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle("Need SMS Permission");
+                builder.setMessage("This app needs SMS permission.");
+                builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        sentToSettingsForCall = true;
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                        intent.setData(uri);
+                        activity.startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
+                        Toast.makeText(getApplicationContext(), "Go to Permissions to Grant SMS Permission", Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            } else {
+                //just request the permission
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SEND_SMS}, SMS_PERMISSION_CONSTANT);
+            }
+
+            SharedPreferences.Editor editor = permissionStatus.edit();
+            editor.putBoolean(Manifest.permission.SEND_SMS,true);
+            editor.commit();
+
+
+        } else {
+            //You already have the permission, just go ahead.
+            send_sms();
+        }
+
+    }
+    void send_sms()
+    {
+        String number = "03128676054";  // The number on which you want to send SMS
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null)));
+    }
     void getCallPermissions(String contact_number )
     {
         permissionStatus = activity.getSharedPreferences("call_permission",MODE_PRIVATE);
@@ -101,7 +188,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        sentToSettings = true;
+                        sentToSettingsForCall = true;
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
                         intent.setData(uri);
@@ -169,6 +256,11 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                 // proceedAfterPermission();
                 Toast.makeText(activity, "Permission Granted ! You can call now ", Toast.LENGTH_SHORT).show();
             }
+            else if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                //Got Permission
+                // proceedAfterPermission();
+                Toast.makeText(activity, "Permission Granted ! You can sms now ", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -176,11 +268,18 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (sentToSettings) {
+        if (sentToSettingsForCall) {
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                 //Got Permission
                 //proceedAfterPermission();
                 Toast.makeText(activity, "Permission Granted ! you can call now ", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (sentToSettingsForSMS) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                //Got Permission
+                //proceedAfterPermission();
+                Toast.makeText(activity, "Permission Granted ! you can SMS now ", Toast.LENGTH_SHORT).show();
             }
         }
     }
